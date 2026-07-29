@@ -12,11 +12,6 @@ import com.uisrael.empleadosweb.services.IAsistenciaService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-/**
- * Marcacion remota: el usuario autenticado marca SU propia asistencia desde
- * fuera de la empresa, con motivo obligatorio y registro de la IP de origen.
- * Reutiliza las mismas validaciones y reglas del API (incluida la regla de las 17:00).
- */
 @Controller
 @RequestMapping("/marcacion-remota")
 public class MarcacionRemotaController extends ControladorBase {
