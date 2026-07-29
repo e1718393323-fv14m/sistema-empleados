@@ -1,0 +1,49 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="/plantilla/plantillaui">
+<head><meta charset="utf-8"></head>
+<body>
+	<div layout:fragment="contenidopaginas">
+		<h5 class="card-title fw-semibold mb-4">Nuevo Usuario</h5>
+		<div class="card">
+			<div class="card-body">
+				<form th:action="@{/usuarios/guardar}" method="post" th:object="${usuario}">
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Usuario <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" th:field="*{username}"
+								placeholder="Nombre de usuario" maxlength="50" required>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Contrasena <span class="text-danger">*</span></label>
+							<input type="password" class="form-control" th:field="*{password}"
+								placeholder="Contrasena" minlength="6" required>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Rol <span class="text-danger">*</span></label>
+							<select class="form-select" th:field="*{idRol}" required>
+								<option value="1">ADMIN</option>
+								<option value="2">RRHH</option>
+								<option value="3" selected>EMPLEADO</option>
+							</select>
+							<small class="text-muted">ADMIN: todo | RRHH: aprueba permisos | EMPLEADO: marca y solicita</small>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Empleado vinculado (opcional)</label>
+							<select class="form-select" th:field="*{idEmpleado}">
+								<option value="">Sin vincular</option>
+								<option th:each="e : ${listaempleados}" th:value="${e.idEmpleado}"
+									th:text="${e.apellidos + ' ' + e.nombres}"></option>
+							</select>
+							<small class="text-muted">Necesario para marcacion remota y permisos propios</small>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary"><i class="ti-save"></i> Guardar</button>
+					<a th:href="@{/usuarios/listar}" class="btn btn-outline-secondary">Cancelar</a>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

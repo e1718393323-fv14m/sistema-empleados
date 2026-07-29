@@ -1,0 +1,65 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="/plantilla/plantillaui">
+<head><meta charset="utf-8"></head>
+<body>
+	<div layout:fragment="contenidopaginas">
+		<h5 class="card-title fw-semibold mb-4">Panel de Control</h5>
+
+		<div class="row">
+			<div class="col-md-4">
+				<div class="card bg-primary text-white">
+					<div class="card-body">
+						<h6 class="text-white">Empleados registrados</h6>
+						<h2 class="text-white" th:text="${totalEmpleados}">0</h2>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card bg-success text-white">
+					<div class="card-body">
+						<h6 class="text-white">Marcaciones registradas</h6>
+						<h2 class="text-white" th:text="${#lists.size(asistencias)}">0</h2>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card bg-warning text-white">
+					<div class="card-body">
+						<h6 class="text-white">Horario laboral</h6>
+						<h2 class="text-white">08:30 - 17:00</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<h6 class="fw-semibold mt-3">Ultimas marcaciones</h6>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Fecha</th>
+					<th>Cod. Alterno</th>
+					<th>Empleado</th>
+					<th>Entrada</th>
+					<th>Salida</th>
+					<th>Estado</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="a, iter : ${asistencias}" th:if="${iter.index < 8}">
+					<td th:text="${a.fecha}"></td>
+					<td th:text="${a.codigoAlterno}"></td>
+					<td th:text="${a.nombreEmpleado}"></td>
+					<td th:text="${a.horaEntrada}"></td>
+					<td th:text="${a.horaSalida}"></td>
+					<td>
+						<span th:if="${a.estadoMarcacion == 'PUNTUAL'}" class="badge bg-success" th:text="${a.estadoMarcacion}"></span>
+						<span th:if="${a.estadoMarcacion == 'ATRASO'}" class="badge bg-danger" th:text="${a.estadoMarcacion}"></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

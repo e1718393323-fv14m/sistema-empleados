@@ -1,0 +1,62 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EVOLUTION - Iniciar Sesion</title>
+<link rel="shortcut icon" type="image/png" th:href="@{/assets/images/logos/favicon.png}" />
+<link rel="stylesheet" th:href="@{/assets/css/styles.min.css}" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ti-icons@0.1.2/css/themify-icons.min.css">
+</head>
+<body>
+	<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6"
+		data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+		<div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+			<div class="d-flex align-items-center justify-content-center w-100">
+				<div class="row justify-content-center w-100">
+					<div class="col-md-8 col-lg-6 col-xxl-3">
+						<div class="card mb-0 shadow">
+							<div class="card-body">
+								<div class="text-center py-3">
+									<span class="fs-9 fw-bolder" style="color:#5D87FF; letter-spacing:2px;">EVOLUTION</span>
+									<p class="text-muted mb-0 mt-1">Sistema de Empleados y Asistencias</p>
+								</div>
+
+								<div th:if="${param.error}" class="alert alert-danger py-2" role="alert">
+									<i class="ti-alert"></i> Usuario o contrasena incorrectos
+								</div>
+								<div th:if="${param.logout}" class="alert alert-success py-2" role="alert">
+									<i class="ti-check"></i> Sesion cerrada correctamente
+								</div>
+
+								<form th:action="@{/login}" method="post">
+									<div class="mb-3">
+										<label for="username" class="form-label">Usuario</label>
+										<div class="input-group">
+											<span class="input-group-text"><i class="ti-user"></i></span>
+											<input type="text" class="form-control" id="username" name="username"
+												placeholder="Ingrese su usuario" required autofocus>
+										</div>
+									</div>
+									<div class="mb-4">
+										<label for="password" class="form-label">Contrasena</label>
+										<div class="input-group">
+											<span class="input-group-text"><i class="ti-lock"></i></span>
+											<input type="password" class="form-control" id="password" name="password"
+												placeholder="Ingrese su contrasena" required>
+										</div>
+									</div>
+									<button type="submit" class="btn btn-primary w-100 py-2 fs-4 mb-3 rounded-2">
+										Ingresar
+									</button>
+								</form>
+								<p class="text-center text-muted fs-2 mb-0">Mernstackec S.A.S. &copy; 2026</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

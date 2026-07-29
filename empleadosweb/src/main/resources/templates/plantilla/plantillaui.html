@@ -1,0 +1,198 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EVOLUTION - Empleados y Asistencias</title>
+<link rel="shortcut icon" type="image/png" th:href="@{/assets/images/logos/favicon.png}" />
+<link rel="stylesheet" th:href="@{/assets/css/styles.min.css}" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ti-icons@0.1.2/css/themify-icons.min.css">
+</head>
+
+<body>
+	<!--  Body Wrapper -->
+	<div class="page-wrapper" id="main-wrapper" data-layout="vertical"
+		data-navbarbg="skin6" data-sidebartype="full"
+		data-sidebar-position="fixed" data-header-position="fixed">
+
+		<!-- Sidebar Start -->
+		<aside class="left-sidebar">
+			<div>
+				<div class="brand-logo d-flex align-items-center justify-content-between">
+					<a th:href="@{/}" class="text-nowrap logo-img text-decoration-none">
+						<span class="fs-7 fw-bolder" style="color:#5D87FF; letter-spacing:1px;">EVOLUTION</span>
+					</a>
+					<div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+						<i class="ti ti-x fs-8"></i>
+					</div>
+				</div>
+				<!-- Sidebar navigation-->
+				<nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+					<ul id="sidebarnav">
+						<li class="nav-small-cap">
+							<i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+							<span class="hide-menu">Inicio</span>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" th:href="@{/}" aria-expanded="false">
+								<span><i class="ti-dashboard"></i></span>
+								<span class="hide-menu">Dashboard</span>
+							</a>
+						</li>
+
+						<li class="nav-small-cap">
+							<i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+							<span class="hide-menu">TALENTO HUMANO</span>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" th:href="@{/empleados}" aria-expanded="false">
+								<span><i class="ti-id-badge"></i></span>
+								<span class="hide-menu">Empleados</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" th:href="@{/asistencias}" aria-expanded="false">
+								<span><i class="ti-time"></i></span>
+								<span class="hide-menu">Asistencias</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" th:href="@{/asistencias/registrar}" aria-expanded="false">
+								<span><i class="ti-check-box"></i></span>
+								<span class="hide-menu">Marcar Asistencia</span>
+							</a>
+						</li>
+
+						<li class="nav-small-cap">
+							<i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+							<span class="hide-menu">GESTION</span>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" th:href="@{/permisos/listar}" aria-expanded="false">
+								<span><i class="ti-calendar"></i></span>
+								<span class="hide-menu">Permisos</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" th:href="@{/marcacion-remota}" aria-expanded="false">
+								<span><i class="ti-location-pin"></i></span>
+								<span class="hide-menu">Marcacion Remota</span>
+							</a>
+						</li>
+
+						<li class="nav-small-cap" sec:authorize="hasRole('ADMIN')">
+							<i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+							<span class="hide-menu">SEGURIDAD</span>
+						</li>
+						<li class="sidebar-item" sec:authorize="hasRole('ADMIN')">
+							<a class="sidebar-link" th:href="@{/usuarios/listar}" aria-expanded="false">
+								<span><i class="ti-key"></i></span>
+								<span class="hide-menu">Usuarios</span>
+							</a>
+						</li>
+
+						<li class="nav-small-cap">
+							<i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+							<span class="hide-menu">CATALOGOS</span>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" th:href="@{/areas}" aria-expanded="false">
+								<span><i class="ti-layout-grid2"></i></span>
+								<span class="hide-menu">Areas</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" th:href="@{/departamentos}" aria-expanded="false">
+								<span><i class="ti-briefcase"></i></span>
+								<span class="hide-menu">Departamentos</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" th:href="@{/horarios}" aria-expanded="false">
+								<span><i class="ti-alarm-clock"></i></span>
+								<span class="hide-menu">Horarios</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</aside>
+		<!--  Sidebar End -->
+
+		<!--  Main wrapper -->
+		<div class="body-wrapper">
+			<!--  Header Start -->
+			<header class="app-header">
+				<nav class="navbar navbar-expand-lg navbar-light">
+					<ul class="navbar-nav">
+						<li class="nav-item d-block d-xl-none">
+							<a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+								<i class="ti ti-menu-2"></i>
+							</a>
+						</li>
+					</ul>
+					<div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+						<ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+							<li class="nav-item me-2" sec:authorize="isAuthenticated()">
+								<span class="fw-semibold text-dark">
+									<i class="ti-user"></i> <span sec:authentication="name">usuario</span>
+								</span>
+							</li>
+							<li class="nav-item dropdown">
+								<a class="nav-link nav-icon-hover" href="javascript:void(0)"
+									id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
+									<img th:src="@{/assets/images/profile/user-1.jpg}" alt="usuario" width="35" height="35" class="rounded-circle">
+								</a>
+							</li>
+							<li class="nav-item" sec:authorize="isAuthenticated()">
+								<form th:action="@{/logout}" method="post" class="d-inline ms-2">
+									<button type="submit" class="btn btn-outline-danger btn-sm">
+										<i class="ti-power-off"></i> Cerrar Sesion
+									</button>
+								</form>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</header>
+			<!--  Header End -->
+
+			<div class="container-fluid">
+				<!-- Mensajes flash -->
+				<div th:if="${mensaje}" class="alert alert-success alert-flash">
+					<i class="ti-check"></i> <span th:text="${mensaje}"></span>
+				</div>
+				<div th:if="${error}" class="alert alert-danger alert-flash">
+					<i class="ti-alert"></i> <span th:text="${error}"></span>
+				</div>
+
+				<div class="card">
+					<div class="card-body">
+						<div layout:fragment="contenidopaginas">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+	<script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/assets/js/sidebarmenu.js}"></script>
+	<script th:src="@{/assets/js/app.min.js}"></script>
+	<script th:src="@{/assets/libs/simplebar/dist/simplebar.js}"></script>
+	<script>
+		// UX: auto-descartar mensajes flash despues de 5 segundos
+		setTimeout(function () {
+			document.querySelectorAll('.alert-flash').forEach(function (el) {
+				el.style.transition = 'opacity 0.6s';
+				el.style.opacity = '0';
+				setTimeout(function () { el.remove(); }, 600);
+			});
+		}, 5000);
+	</script>
+</body>
+
+</html>

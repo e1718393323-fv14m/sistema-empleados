@@ -1,0 +1,65 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="/plantilla/plantillaui">
+<head><meta charset="utf-8"></head>
+<body>
+	<div layout:fragment="contenidopaginas">
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<h5 class="card-title fw-semibold mb-0">Empleados</h5>
+			<a th:href="@{/empleados/nuevo}" class="btn btn-primary">
+				<i class="ti-plus"></i> Nuevo Empleado
+			</a>
+		</div>
+
+		<form th:action="@{/empleados}" method="get" class="row g-2 mb-3">
+			<div class="col-auto">
+				<input type="text" name="buscar" class="form-control" th:value="${buscar}"
+					placeholder="Buscar por nombres o apellidos">
+			</div>
+			<div class="col-auto">
+				<button type="submit" class="btn btn-outline-primary"><i class="ti-search"></i> Buscar</button>
+			</div>
+		</form>
+
+		<div class="table-responsive">
+			<table class="table align-middle">
+				<thead>
+					<tr>
+						<th>Codigo</th>
+						<th>Cod. Alterno</th>
+						<th>Apellidos y Nombres</th>
+						<th>Cedula</th>
+						<th>Departamento</th>
+						<th>Area</th>
+						<th>Puesto</th>
+						<th>Estado</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="e : ${listaempleados}">
+						<td th:text="${e.idEmpleado}"></td>
+						<td th:text="${e.codigoAlterno}"></td>
+						<td th:text="${e.apellidos + ' ' + e.nombres}"></td>
+						<td th:text="${e.cedula}"></td>
+						<td th:text="${e.nombreDepartamento}"></td>
+						<td th:text="${e.nombreArea}"></td>
+						<td th:text="${e.puesto}"></td>
+						<td>
+							<span th:if="${e.estado}" class="badge bg-success">ACTIVO</span>
+							<span th:unless="${e.estado}" class="badge bg-secondary">INACTIVO</span>
+						</td>
+						<td>
+							<a th:href="@{/asistencias(codigo=${e.idEmpleado})}" class="btn btn-sm btn-info" title="Asistencias"><i class="ti-time"></i></a>
+							<a th:href="@{/empleados/editar/{c}(c=${e.idEmpleado})}" class="btn btn-sm btn-primary" title="Editar"><i class="ti-pencil-alt"></i></a>
+							<a th:href="@{/empleados/eliminar/{c}(c=${e.idEmpleado})}" class="btn btn-sm btn-danger" title="Eliminar"
+								onclick="return confirm('Esta seguro de eliminar este empleado?');"><i class="ti-trash"></i></a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

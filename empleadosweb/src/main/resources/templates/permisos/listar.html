@@ -1,0 +1,92 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorate="/plantilla/plantillaui">
+<head><meta charset="utf-8"></head>
+<body>
+	<div layout:fragment="contenidopaginas">
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<h5 class="card-title fw-semibold mb-0">Permisos por Ausencia</h5>
+			<a th:href="@{/permisos/nuevo}" class="btn btn-primary">
+				<i class="ti-plus"></i> Solicitar Permiso
+			</a>
+		</div>
+
+		<form th:action="@{/permisos/listar}" method="get" class="row g-2 mb-3"
+			sec:authorize="hasAnyRole('ADMIN','RRHH')">
+			<div class="col-auto">
+				<select name="estado" class="form-select">
+					<option value="" th:selected="${estado == null or estado == ''}">Todos los estados</option>
+					<option value="PENDIENTE" th:selected="${estado == 'PENDIENTE'}">PENDIENTE</option>
+					<option value="APROBADO" th:selected="${estado == 'APROBADO'}">APROBADO</option>
+					<option value="RECHAZADO" th:selected="${estado == 'RECHAZADO'}">RECHAZADO</option>
+				</select>
+			</div>
+			<div class="col-auto">
+				<button type="submit" class="btn btn-outline-primary"><i class="ti-filter"></i> Filtrar</button>
+			</div>
+		</form>
+
+		<div class="table-responsive">
+			<table class="table table-hover align-middle">
+				<thead class="table-light">
+					<tr>
+						<th>#</th><th>Empleado</th><th>Tipo</th><th>Desde</th><th>Hasta</th>
+						<th>Motivo</th><th>Estado</th><th>Resuelto por</th><th class="text-end">Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="p : ${listapermisos}">
+						<td th:text="${p.idPermiso}"></td>
+						<td th:text="${p.nombreEmpleado}"></td>
+						<td th:text="${p.tipoPermiso}"></td>
+						<td th:text="${p.fechaDesde}"></td>
+						<td th:text="${p.fechaHasta}"></td>
+						<td>
+							<span th:text="${p.motivo}"></span>
+							<small class="d-block text-muted" th:if="${p.observacionRrhh != null}"
+								th:text="'RRHH: ' + ${p.observacionRrhh}"></small>
+						</td>
+						<td>
+							<span class="badge"
+								th:classappend="${p.estado == 'PENDIENTE'} ? 'bg-warning' :
+								               (${p.estado == 'APROBADO'} ? 'bg-success' : 'bg-danger')"
+								th:text="${p.estado}"></span>
+						</td>
+						<td th:text="${p.aprobadoPor != null ? p.aprobadoPor : '-'}"></td>
+						<td class="text-end">
+							<div th:if="${p.estado == 'PENDIENTE'}" sec:authorize="hasAnyRole('ADMIN','RRHH')">
+								<form th:action="@{/permisos/{id}/aprobar(id=${p.idPermiso})}" method="post"
+									class="d-inline" onsubmit="return resolver(this, 'APROBAR');">
+									<input type="hidden" name="observacion">
+									<button type="submit" class="btn btn-sm btn-success"
+										title="Aprobar"><i class="ti-check"></i></button>
+								</form>
+								<form th:action="@{/permisos/{id}/rechazar(id=${p.idPermiso})}" method="post"
+									class="d-inline" onsubmit="return resolver(this, 'RECHAZAR');">
+									<input type="hidden" name="observacion">
+									<button type="submit" class="btn btn-sm btn-danger"
+										title="Rechazar"><i class="ti-close"></i></button>
+								</form>
+							</div>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(listapermisos)}">
+						<td colspan="9" class="text-center text-muted py-4">No existen permisos registrados</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<script>
+			function resolver(form, accion) {
+				var obs = prompt('Observacion de RRHH para ' + accion + ' (opcional):', '');
+				if (obs === null) return false; // cancelado
+				form.observacion.value = obs;
+				return confirm('Confirma ' + accion + ' este permiso?');
+			}
+		</script>
+	</div>
+</body>
+</html>

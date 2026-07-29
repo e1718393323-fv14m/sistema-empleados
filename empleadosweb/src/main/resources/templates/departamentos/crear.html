@@ -1,0 +1,37 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="/plantilla/plantillaui">
+<head><meta charset="utf-8"></head>
+<body>
+	<div layout:fragment="contenidopaginas">
+		<h5 class="card-title fw-semibold mb-4" th:text="${titulo}">Crear Departamento</h5>
+		<div class="col-lg-6">
+			<form th:action="@{/departamentos/guardar}" th:object="${departamento}" method="post">
+				<input type="hidden" th:field="*{idDepartamento}">
+				<div class="mb-3">
+					<label class="form-label">Nombre *</label>
+					<input type="text" th:field="*{nombre}" class="form-control" required maxlength="100">
+				</div>
+				<div class="mb-3">
+					<label class="form-label">Descripcion</label>
+					<input type="text" th:field="*{descripcion}" class="form-control" maxlength="200">
+				</div>
+				<div class="mb-3">
+					<label class="form-label">Area *</label>
+					<select th:field="*{idArea}" class="form-select" required>
+						<option value="">-- Seleccione --</option>
+						<option th:each="a : ${listaareas}" th:value="${a.idArea}" th:text="${a.nombre}"></option>
+					</select>
+				</div>
+				<div class="form-check mb-3">
+					<input type="checkbox" th:field="*{estado}" class="form-check-input" id="chkEstado">
+					<label class="form-check-label" for="chkEstado">Activo</label>
+				</div>
+				<button type="submit" class="btn btn-primary"><i class="ti-save"></i> Guardar</button>
+				<a th:href="@{/departamentos}" class="btn btn-outline-secondary">Cancelar</a>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

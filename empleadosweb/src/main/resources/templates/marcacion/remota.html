@@ -1,0 +1,65 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="/plantilla/plantillaui">
+<head><meta charset="utf-8"></head>
+<body>
+	<div layout:fragment="contenidopaginas">
+		<h5 class="card-title fw-semibold mb-4">Marcacion Remota</h5>
+
+		<div class="row justify-content-center">
+			<div class="col-md-8 col-lg-6">
+				<div class="card">
+					<div class="card-body text-center">
+						<i class="ti-location-pin fs-10 text-primary"></i>
+						<h5 class="mt-2 mb-1" th:text="${usuario != null and usuario.nombreEmpleado != null}
+							? ${usuario.nombreEmpleado} : ${usuario != null ? usuario.username : ''}"></h5>
+						<p class="text-muted">Registre su asistencia desde fuera de la empresa.
+							Se guardara el motivo y la direccion IP de origen.</p>
+
+						<div th:if="${sinEmpleado}" class="alert alert-warning text-start">
+							<i class="ti-alert"></i> Su usuario no esta vinculado a un empleado.
+							Solicite al administrador que lo vincule para poder marcar.
+						</div>
+
+						<div th:unless="${sinEmpleado}">
+							<div class="mb-3 text-start">
+								<label class="form-label">Motivo <span class="text-danger">*</span></label>
+								<input type="text" class="form-control" id="motivo" maxlength="200"
+									placeholder="Ej: teletrabajo, visita a cliente, comision de servicios" required>
+							</div>
+							<div class="d-flex gap-2 justify-content-center">
+								<form th:action="@{/marcacion-remota/entrada}" method="post" onsubmit="return copiarMotivo(this);">
+									<input type="hidden" name="motivo">
+									<button type="submit" class="btn btn-success btn-lg px-4">
+										<i class="ti-arrow-circle-down"></i> Marcar ENTRADA
+									</button>
+								</form>
+								<form th:action="@{/marcacion-remota/salida}" method="post" onsubmit="return copiarMotivo(this);">
+									<input type="hidden" name="motivo">
+									<button type="submit" class="btn btn-warning btn-lg px-4">
+										<i class="ti-arrow-circle-up"></i> Marcar SALIDA
+									</button>
+								</form>
+							</div>
+							<p class="text-muted fs-2 mt-3 mb-0">
+								La salida solo se registra desde su hora de salida (ej. 17:00),
+								salvo que tenga un permiso aprobado vigente.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			function copiarMotivo(form) {
+				var m = document.getElementById('motivo').value.trim();
+				if (!m) { alert('El motivo es obligatorio'); return false; }
+				form.motivo.value = m;
+				return confirm('Confirma registrar la marcacion remota?');
+			}
+		</script>
+	</div>
+</body>
+</html>

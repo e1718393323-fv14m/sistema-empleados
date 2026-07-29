@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="/plantilla/plantillaui">
+<head><meta charset="utf-8"></head>
+<body>
+	<div layout:fragment="contenidopaginas">
+		<h5 class="card-title fw-semibold mb-4">Editar Usuario</h5>
+		<div class="card">
+			<div class="card-body">
+				<form th:action="@{/usuarios/actualizar}" method="post" th:object="${usuario}">
+					<input type="hidden" th:field="*{idUsuario}">
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Usuario <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" th:field="*{username}"
+								maxlength="50" required>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Contrasena</label>
+							<input type="password" class="form-control" th:field="*{password}"
+								placeholder="Dejar en blanco para mantener la actual" minlength="6">
+							<small class="text-muted">Solo escriba aqui si desea cambiarla</small>
+						</div>
+						<div class="col-md-4 mb-3">
+							<label class="form-label">Rol <span class="text-danger">*</span></label>
+							<select class="form-select" th:field="*{idRol}" required>
+								<option value="1" th:selected="${rolActual == 'ADMIN'}">ADMIN</option>
+								<option value="2" th:selected="${rolActual == 'RRHH'}">RRHH</option>
+								<option value="3" th:selected="${rolActual == 'EMPLEADO'}">EMPLEADO</option>
+							</select>
+						</div>
+						<div class="col-md-4 mb-3">
+							<label class="form-label">Empleado vinculado</label>
+							<select class="form-select" th:field="*{idEmpleado}">
+								<option value="">Sin vincular</option>
+								<option th:each="e : ${listaempleados}" th:value="${e.idEmpleado}"
+									th:text="${e.apellidos + ' ' + e.nombres}"></option>
+							</select>
+						</div>
+						<div class="col-md-4 mb-3">
+							<label class="form-label">Estado</label>
+							<select class="form-select" th:field="*{estado}">
+								<option value="true">ACTIVO</option>
+								<option value="false">INACTIVO</option>
+							</select>
+							<small class="text-muted">Desactivar bloquea el login sin borrar la auditoria</small>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary"><i class="ti-save"></i> Actualizar</button>
+					<a th:href="@{/usuarios/listar}" class="btn btn-outline-secondary">Cancelar</a>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

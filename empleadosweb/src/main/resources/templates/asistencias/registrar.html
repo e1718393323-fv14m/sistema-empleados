@@ -1,0 +1,74 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="/plantilla/plantillaui">
+<head><meta charset="utf-8"></head>
+<body>
+	<div layout:fragment="contenidopaginas">
+		<h5 class="card-title fw-semibold mb-4">Marcar Asistencia</h5>
+
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="card">
+					<div class="card-body">
+						<div class="mb-3">
+							<label class="form-label">Empleado *</label>
+							<select id="selEmpleado" class="form-select" required>
+								<option value="">-- Seleccione un empleado --</option>
+								<option th:each="e : ${empleados}" th:value="${e.idEmpleado}"
+									th:text="${e.idEmpleado + ' - ' + (e.codigoAlterno != null ? e.codigoAlterno + ' - ' : '') + e.apellidos + ' ' + e.nombres + ' (' + e.nombreDepartamento + ')'}"></option>
+							</select>
+						</div>
+						<div class="mb-4">
+							<label class="form-label">Observacion</label>
+							<input type="text" id="txtObservacion" class="form-control"
+								placeholder="Observacion opcional (permiso, justificacion, etc.)">
+						</div>
+
+						<form id="formEntrada" th:action="@{/asistencias/entrada}" method="post" class="d-inline">
+							<input type="hidden" name="idEmpleado" id="entradaEmpleado">
+							<input type="hidden" name="observacion" id="entradaObs">
+							<button type="submit" class="btn btn-success btn-lg me-2"
+								onclick="return prepararMarcacion('entrada');">
+								<i class="ti-import"></i> Marcar ENTRADA
+							</button>
+						</form>
+						<form id="formSalida" th:action="@{/asistencias/salida}" method="post" class="d-inline">
+							<input type="hidden" name="idEmpleado" id="salidaEmpleado">
+							<input type="hidden" name="observacion" id="salidaObs">
+							<button type="submit" class="btn btn-warning btn-lg"
+								onclick="return prepararMarcacion('salida');">
+								<i class="ti-export"></i> Marcar SALIDA
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="card bg-light-info shadow-none">
+					<div class="card-body">
+						<h6 class="fw-semibold">Reglas de marcacion</h6>
+						<ul class="mb-0 fs-3">
+							<li>Horario administrativo: <b>08:30 a 17:00</b>.</li>
+							<li>Tolerancia de entrada: 10 minutos.</li>
+							<li>Despues de las 08:40 la entrada se registra como <span class="badge bg-danger">ATRASO</span>.</li>
+							<li>Solo se permite una entrada y una salida por dia.</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			function prepararMarcacion(tipo) {
+				var emp = document.getElementById('selEmpleado').value;
+				var obs = document.getElementById('txtObservacion').value;
+				if (!emp) { alert('Seleccione un empleado'); return false; }
+				document.getElementById(tipo + 'Empleado').value = emp;
+				document.getElementById(tipo + 'Obs').value = obs;
+				return true;
+			}
+		</script>
+	</div>
+</body>
+</html>

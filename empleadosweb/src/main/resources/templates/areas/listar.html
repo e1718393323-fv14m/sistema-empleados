@@ -1,0 +1,40 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="/plantilla/plantillaui">
+<head><meta charset="utf-8"></head>
+<body>
+	<div layout:fragment="contenidopaginas">
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<h5 class="card-title fw-semibold mb-0">Catalogo de Areas</h5>
+			<a th:href="@{/areas/nuevo}" class="btn btn-primary"><i class="ti-plus"></i> Nueva Area</a>
+		</div>
+		<div class="table-responsive">
+			<table class="table align-middle">
+				<thead>
+					<tr><th>Id</th><th>Nombre</th><th>Descripcion</th><th>Estado</th><th></th></tr>
+				</thead>
+				<tbody>
+					<tr th:each="a : ${listaareas}">
+						<td th:text="${a.idArea}"></td>
+						<td th:text="${a.nombre}"></td>
+						<td th:text="${a.descripcion}"></td>
+						<td>
+							<span th:if="${a.estado}" class="badge bg-success">ACTIVO</span>
+							<span th:unless="${a.estado}" class="badge bg-secondary">INACTIVO</span>
+						</td>
+						<td>
+							<a th:href="@{/areas/editar/{id}(id=${a.idArea})}" class="btn btn-sm btn-primary"><i class="ti-pencil-alt"></i></a>
+							<a th:href="@{/areas/eliminar/{id}(id=${a.idArea})}" class="btn btn-sm btn-danger"
+								onclick="return confirm('Esta seguro de eliminar esta area?');"><i class="ti-trash"></i></a>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(listaareas)}">
+						<td colspan="5" class="text-center text-muted">No existen areas registradas</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

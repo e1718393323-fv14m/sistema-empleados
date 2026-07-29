@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="/plantilla/plantillaui">
+<head><meta charset="utf-8"></head>
+<body>
+	<div layout:fragment="contenidopaginas">
+		<h5 class="card-title fw-semibold mb-4">Solicitar Permiso por Ausencia</h5>
+		<div class="card">
+			<div class="card-body">
+				<form th:action="@{/permisos/guardar}" method="post" th:object="${permiso}">
+					<div class="row">
+						<div class="col-md-6 mb-3" th:if="${esEmpleado}">
+							<label class="form-label">Empleado</label>
+							<input type="text" class="form-control" th:value="${nombreEmpleado}" disabled>
+							<input type="hidden" th:field="*{idEmpleado}">
+						</div>
+						<div class="col-md-6 mb-3" th:unless="${esEmpleado}">
+							<label class="form-label">Empleado <span class="text-danger">*</span></label>
+							<select class="form-select" th:field="*{idEmpleado}" required>
+								<option value="">Seleccione un empleado</option>
+								<option th:each="e : ${listaempleados}" th:value="${e.idEmpleado}"
+									th:text="${e.apellidos + ' ' + e.nombres}"></option>
+							</select>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Tipo de permiso <span class="text-danger">*</span></label>
+							<select class="form-select" th:field="*{tipoPermiso}" required>
+								<option value="CALAMIDAD">Calamidad domestica</option>
+								<option value="MEDICO">Medico</option>
+								<option value="PERSONAL">Personal</option>
+								<option value="VACACIONES">Vacaciones</option>
+								<option value="OTRO">Otro</option>
+							</select>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Desde <span class="text-danger">*</span></label>
+							<input type="date" class="form-control" th:field="*{fechaDesde}" required>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Hasta <span class="text-danger">*</span></label>
+							<input type="date" class="form-control" th:field="*{fechaHasta}" required>
+						</div>
+						<div class="col-12 mb-3">
+							<label class="form-label">Motivo <span class="text-danger">*</span></label>
+							<textarea class="form-control" th:field="*{motivo}" rows="3" maxlength="300"
+								placeholder="Describa el motivo de la ausencia" required></textarea>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary"><i class="ti-save"></i> Solicitar</button>
+					<a th:href="@{/permisos/listar}" class="btn btn-outline-secondary">Cancelar</a>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

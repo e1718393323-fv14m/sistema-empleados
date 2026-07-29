@@ -1,0 +1,40 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="/plantilla/plantillaui">
+<head><meta charset="utf-8"></head>
+<body>
+	<div layout:fragment="contenidopaginas">
+		<h5 class="card-title fw-semibold mb-4" th:text="${titulo}">Crear Horario</h5>
+		<div class="col-lg-6">
+			<form th:action="@{/horarios/guardar}" th:object="${horario}" method="post">
+				<input type="hidden" th:field="*{idHorario}">
+				<div class="mb-3">
+					<label class="form-label">Nombre *</label>
+					<input type="text" th:field="*{nombre}" class="form-control" required maxlength="100">
+				</div>
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label class="form-label">Hora Entrada *</label>
+						<input type="time" th:field="*{horaEntrada}" class="form-control" required>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label class="form-label">Hora Salida *</label>
+						<input type="time" th:field="*{horaSalida}" class="form-control" required>
+					</div>
+				</div>
+				<div class="mb-3">
+					<label class="form-label">Tolerancia (minutos)</label>
+					<input type="number" th:field="*{toleranciaMinutos}" class="form-control" min="0" max="60">
+				</div>
+				<div class="form-check mb-3">
+					<input type="checkbox" th:field="*{estado}" class="form-check-input" id="chkEstado">
+					<label class="form-check-label" for="chkEstado">Activo</label>
+				</div>
+				<button type="submit" class="btn btn-primary"><i class="ti-save"></i> Guardar</button>
+				<a th:href="@{/horarios}" class="btn btn-outline-secondary">Cancelar</a>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

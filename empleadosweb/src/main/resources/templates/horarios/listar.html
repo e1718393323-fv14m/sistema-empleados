@@ -1,0 +1,42 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="/plantilla/plantillaui">
+<head><meta charset="utf-8"></head>
+<body>
+	<div layout:fragment="contenidopaginas">
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<h5 class="card-title fw-semibold mb-0">Catalogo de Horarios</h5>
+			<a th:href="@{/horarios/nuevo}" class="btn btn-primary"><i class="ti-plus"></i> Nuevo Horario</a>
+		</div>
+		<div class="table-responsive">
+			<table class="table align-middle">
+				<thead>
+					<tr><th>Id</th><th>Nombre</th><th>Hora Entrada</th><th>Hora Salida</th><th>Tolerancia (min)</th><th>Estado</th><th></th></tr>
+				</thead>
+				<tbody>
+					<tr th:each="h : ${listahorarios}">
+						<td th:text="${h.idHorario}"></td>
+						<td th:text="${h.nombre}"></td>
+						<td th:text="${h.horaEntrada}"></td>
+						<td th:text="${h.horaSalida}"></td>
+						<td th:text="${h.toleranciaMinutos}"></td>
+						<td>
+							<span th:if="${h.estado}" class="badge bg-success">ACTIVO</span>
+							<span th:unless="${h.estado}" class="badge bg-secondary">INACTIVO</span>
+						</td>
+						<td>
+							<a th:href="@{/horarios/editar/{id}(id=${h.idHorario})}" class="btn btn-sm btn-primary"><i class="ti-pencil-alt"></i></a>
+							<a th:href="@{/horarios/eliminar/{id}(id=${h.idHorario})}" class="btn btn-sm btn-danger"
+								onclick="return confirm('Esta seguro de eliminar este horario?');"><i class="ti-trash"></i></a>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(listahorarios)}">
+						<td colspan="7" class="text-center text-muted">No existen horarios registrados</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

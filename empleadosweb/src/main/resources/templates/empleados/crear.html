@@ -1,0 +1,121 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="/plantilla/plantillaui">
+<head><meta charset="utf-8"></head>
+<body>
+	<div layout:fragment="contenidopaginas">
+		<h5 class="card-title fw-semibold mb-4" th:text="${titulo}">Registrar Empleado</h5>
+
+		<form th:action="@{/empleados/guardar}" th:object="${empleado}" method="post">
+			<input type="hidden" th:field="*{idEmpleado}">
+
+			<h6 class="fw-semibold border-bottom pb-2 mb-3">Datos personales</h6>
+			<div class="row">
+				<div class="col-md-4 mb-3">
+					<label class="form-label">Codigo alterno</label>
+					<input type="text" class="form-control" th:field="*{codigoAlterno}" placeholder="ADE000000">
+				</div>
+				<div class="col-md-4 mb-3">
+					<label class="form-label">Nombres *</label>
+					<input type="text" class="form-control" th:field="*{nombres}" required>
+				</div>
+				<div class="col-md-4 mb-3">
+					<label class="form-label">Apellidos *</label>
+					<input type="text" class="form-control" th:field="*{apellidos}" required>
+				</div>
+				<div class="col-md-4 mb-3">
+					<label class="form-label">Cedula *</label>
+					<input type="text" class="form-control" th:field="*{cedula}" maxlength="10" required>
+				</div>
+				<div class="col-md-4 mb-3">
+					<label class="form-label">Fecha de nacimiento</label>
+					<input type="date" class="form-control" th:field="*{fechaNacimiento}">
+				</div>
+				<div class="col-md-4 mb-3">
+					<label class="form-label">Sexo</label>
+					<select class="form-select" th:field="*{sexo}">
+						<option value="">-- Seleccione --</option>
+						<option value="MASCULINO">MASCULINO</option>
+						<option value="FEMENINO">FEMENINO</option>
+					</select>
+				</div>
+				<div class="col-md-4 mb-3">
+					<label class="form-label">Estado civil</label>
+					<select class="form-select" th:field="*{estadoCivil}">
+						<option value="">-- Seleccione --</option>
+						<option value="SOLTERO">SOLTERO</option>
+						<option value="CASADO">CASADO</option>
+						<option value="DIVORCIADO">DIVORCIADO</option>
+						<option value="VIUDO">VIUDO</option>
+						<option value="UNION LIBRE">UNION LIBRE</option>
+					</select>
+				</div>
+				<div class="col-md-4 mb-3">
+					<label class="form-label">Nivel de estudios</label>
+					<select class="form-select" th:field="*{nivelEstudios}">
+						<option value="">-- Seleccione --</option>
+						<option value="PRIMARIA">PRIMARIA</option>
+						<option value="SECUNDARIA">SECUNDARIA</option>
+						<option value="TERCER NIVEL">TERCER NIVEL</option>
+						<option value="CUARTO NIVEL">CUARTO NIVEL</option>
+					</select>
+				</div>
+				<div class="col-md-4 mb-3">
+					<label class="form-label">E-mail personal</label>
+					<input type="email" class="form-control" th:field="*{email}">
+				</div>
+				<div class="col-md-4 mb-3">
+					<label class="form-label">Telefono</label>
+					<input type="text" class="form-control" th:field="*{telefono}" maxlength="10">
+				</div>
+				<div class="col-md-4 mb-3">
+					<label class="form-label">Ciudad</label>
+					<input type="text" class="form-control" th:field="*{ciudad}">
+				</div>
+				<div class="col-md-4 mb-3">
+					<label class="form-label">Direccion</label>
+					<input type="text" class="form-control" th:field="*{direccion}">
+				</div>
+			</div>
+
+			<h6 class="fw-semibold border-bottom pb-2 mb-3">Datos laborales</h6>
+			<div class="row">
+				<div class="col-md-4 mb-3">
+					<label class="form-label">Puesto</label>
+					<input type="text" class="form-control" th:field="*{puesto}">
+				</div>
+				<div class="col-md-4 mb-3">
+					<label class="form-label">Departamento *</label>
+					<select class="form-select" th:field="*{idDepartamento}" required>
+						<option value="">-- Seleccione --</option>
+						<option th:each="d : ${departamentos}" th:value="${d.idDepartamento}"
+							th:text="${d.nombre + ' (' + d.nombreArea + ')'}"></option>
+					</select>
+				</div>
+				<div class="col-md-4 mb-3">
+					<label class="form-label">Horario *</label>
+					<select class="form-select" th:field="*{idHorario}" required>
+						<option value="">-- Seleccione --</option>
+						<option th:each="h : ${horarios}" th:value="${h.idHorario}"
+							th:text="${h.nombre + ' (' + h.horaEntrada + ' - ' + h.horaSalida + ')'}"></option>
+					</select>
+				</div>
+				<div class="col-md-4 mb-3">
+					<label class="form-label">Fecha de ingreso</label>
+					<input type="date" class="form-control" th:field="*{fechaIngreso}">
+				</div>
+				<div class="col-md-4 mb-3 d-flex align-items-end">
+					<div class="form-check">
+						<input type="checkbox" class="form-check-input" id="estado" th:field="*{estado}">
+						<label class="form-check-label" for="estado">Empleado activo</label>
+					</div>
+				</div>
+			</div>
+
+			<button type="submit" class="btn btn-primary"><i class="ti-save"></i> Guardar</button>
+			<a th:href="@{/empleados}" class="btn btn-secondary">Cancelar</a>
+		</form>
+	</div>
+</body>
+</html>

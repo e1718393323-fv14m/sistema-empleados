@@ -1,0 +1,87 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="/plantilla/plantillaui">
+<head><meta charset="utf-8"></head>
+<body>
+	<div layout:fragment="contenidopaginas">
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<h5 class="card-title fw-semibold mb-0">
+				Asistencias
+				<span th:if="${codigo != null}" class="text-muted fs-4" th:text="'- Empleado ' + ${codigo}"></span>
+			</h5>
+			<div>
+				<form th:action="@{/asistencias/procesar}" method="post" class="d-inline">
+					<button type="submit" class="btn btn-outline-success"
+						onclick="return confirm('Consolidar las marcaciones pendientes del biometrico en asistencias?');">
+						<i class="ti-reload"></i> Procesar Marcaciones
+					</button>
+				</form>
+				<a th:href="@{/asistencias/registrar}" class="btn btn-primary">
+					<i class="ti-check-box"></i> Marcar Asistencia
+				</a>
+			</div>
+		</div>
+
+		<form th:action="@{/asistencias}" method="get" class="row g-2 mb-3">
+			<div class="col-auto">
+				<input type="number" name="codigo" class="form-control" th:value="${codigo}"
+					placeholder="Codigo de empleado">
+			</div>
+			<div class="col-auto">
+				<button type="submit" class="btn btn-outline-primary"><i class="ti-search"></i> Filtrar</button>
+			</div>
+			<div class="col-auto" th:if="${codigo != null}">
+				<a th:href="@{/asistencias}" class="btn btn-outline-secondary">Ver todas</a>
+			</div>
+		</form>
+
+		<div class="table-responsive">
+			<table class="table align-middle">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Codigo</th>
+						<th>Cod. Alterno</th>
+						<th>Empleado</th>
+						<th>Fecha</th>
+						<th>Hora Entrada</th>
+						<th>Hora Salida</th>
+						<th>Estado</th>
+						<th>Observacion</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- Dias justificados por permiso APROBADO (solo al filtrar por empleado) -->
+					<tr th:each="perm : ${listapermisos}" th:if="${listapermisos != null}" class="table-primary">
+						<td><i class="ti-calendar"></i></td>
+						<td colspan="2" class="fw-semibold">Ausencia justificada</td>
+						<td th:text="${perm.nombreEmpleado}"></td>
+						<td th:text="${perm.fechaDesde} + ' al ' + ${perm.fechaHasta}"></td>
+						<td colspan="2" th:text="${perm.tipoPermiso}"></td>
+						<td><span class="badge bg-primary">PERMISO</span></td>
+						<td th:text="${perm.motivo}"></td>
+					</tr>
+					<tr th:each="a : ${listaasistencias}">
+						<td th:text="${a.idAsistencia}"></td>
+						<td th:text="${a.idEmpleado}"></td>
+						<td th:text="${a.codigoAlterno}"></td>
+						<td th:text="${a.nombreEmpleado}"></td>
+						<td th:text="${a.fecha}"></td>
+						<td th:text="${a.horaEntrada}"></td>
+						<td th:text="${a.horaSalida != null ? a.horaSalida : '-'}"></td>
+						<td>
+							<span th:if="${a.estadoMarcacion == 'PUNTUAL'}" class="badge bg-success">PUNTUAL</span>
+							<span th:if="${a.estadoMarcacion == 'ATRASO'}" class="badge bg-danger">ATRASO</span>
+						</td>
+						<td th:text="${a.observacion}"></td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(listaasistencias)}">
+						<td colspan="9" class="text-center text-muted">No existen registros de asistencia</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
