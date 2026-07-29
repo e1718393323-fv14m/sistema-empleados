@@ -7,7 +7,7 @@ public class UsuarioRequestDto {
 	private Integer idUsuario;
 	private String username;
 	private String password;
-	private Integer idEmpleado; // opcional
+	private Integer idEmpleado; 
 	private Integer idRol;
 	private Boolean estado;
 }

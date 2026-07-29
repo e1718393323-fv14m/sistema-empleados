@@ -20,7 +20,6 @@ public class Asistencia {
 	@Column(nullable = false)
 	private LocalDate fecha;
 
-	// Codigo alterno del empleado al momento de la marcacion (Ej: ADE002886)
 	@Column(name = "codigo_alterno", length = 20)
 	private String codigoAlterno;
 
@@ -36,7 +35,6 @@ public class Asistencia {
 	@Column(length = 250)
 	private String observacion;
 
-	// Relacion JPA: muchas asistencias pertenecen a un empleado
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_empleado", nullable = false)
 	private Empleado empleado;

@@ -8,5 +8,5 @@ public class DepartamentoRequestDto {
 	private String nombre;
 	private String descripcion;
 	private boolean estado;
-	private Integer idArea; // FK al area
+	private Integer idArea; 
 }
