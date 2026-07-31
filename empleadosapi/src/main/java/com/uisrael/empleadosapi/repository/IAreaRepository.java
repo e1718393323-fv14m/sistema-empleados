@@ -9,7 +9,6 @@ import com.uisrael.empleadosapi.entities.Area;
 
 public interface IAreaRepository extends JpaRepository<Area, Integer> {
 
-	// JPQL: listar solo areas activas ordenadas por nombre
 	@Query("SELECT a FROM Area a WHERE a.estado = true ORDER BY a.nombre")
 	List<Area> listarActivas();
 }
