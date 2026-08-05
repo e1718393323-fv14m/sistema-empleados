@@ -16,10 +16,6 @@ import com.uisrael.empleadosweb.model.dto.request.LoginRequestDto;
 import com.uisrael.empleadosweb.model.dto.response.UsuarioResponseDto;
 import com.uisrael.empleadosweb.services.IUsuarioService;
 
-/**
- * Autentica contra el endpoint /api/usuarios/login del API.
- * El API valida BCrypt y registra la auditoria en la tabla ingresos (con IP).
- */
 @Component
 public class ProveedorAutenticacionApi implements AuthenticationProvider {
 
@@ -44,7 +40,6 @@ public class ProveedorAutenticacionApi implements AuthenticationProvider {
 			return new UsernamePasswordAuthenticationToken(principal, null,
 					List.of(new SimpleGrantedAuthority("ROLE_" + u.getRol())));
 		} catch (WebClientResponseException e) {
-			// El API responde 400 {"error": "Usuario o contrasena incorrectos"}
 			throw new BadCredentialsException("Usuario o contrasena incorrectos");
 		}
 	}

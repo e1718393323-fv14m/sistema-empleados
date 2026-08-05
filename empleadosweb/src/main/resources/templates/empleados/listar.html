@@ -14,11 +14,8 @@
 
 		<form th:action="@{/empleados}" method="get" class="row g-2 mb-3">
 			<div class="col-auto">
-				<div class="input-group">
-					<span class="input-group-text"><i class="ti-search"></i></span>
-					<input type="text" name="buscar" class="form-control" th:value="${buscar}"
-						placeholder="Buscar por nombres o apellidos">
-				</div>
+				<input type="text" name="buscar" class="form-control" th:value="${buscar}"
+					placeholder="Buscar por nombres o apellidos">
 			</div>
 			<div class="col-auto">
 				<button type="submit" class="btn btn-outline-primary"><i class="ti-search"></i> Buscar</button>
@@ -35,6 +32,7 @@
 						<th>Cedula</th>
 						<th>Departamento</th>
 						<th>Area</th>
+						<th>Puesto</th>
 						<th>Estado</th>
 						<th></th>
 					</tr>
@@ -43,18 +41,11 @@
 					<tr th:each="e : ${listaempleados}">
 						<td th:text="${e.idEmpleado}"></td>
 						<td th:text="${e.codigoAlterno}"></td>
-						<td>
-							<div class="d-flex align-items-center gap-2">
-								<span class="evo-ini" th:text="${#strings.toUpperCase(#strings.substring(e.apellidos,0,1) + #strings.substring(e.nombres,0,1))}"></span>
-								<div>
-									<div class="fw-semibold" th:text="${e.apellidos + ' ' + e.nombres}"></div>
-									<div class="text-muted fs-2" th:text="${e.puesto}"></div>
-								</div>
-							</div>
-						</td>
+						<td th:text="${e.apellidos + ' ' + e.nombres}"></td>
 						<td th:text="${e.cedula}"></td>
 						<td th:text="${e.nombreDepartamento}"></td>
 						<td th:text="${e.nombreArea}"></td>
+						<td th:text="${e.puesto}"></td>
 						<td>
 							<span th:if="${e.estado}" class="badge bg-success">ACTIVO</span>
 							<span th:unless="${e.estado}" class="badge bg-secondary">INACTIVO</span>

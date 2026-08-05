@@ -22,6 +22,6 @@ public class EmpleadoRequestDto {
 	private String puesto;
 	private LocalDate fechaIngreso;
 	private boolean estado;
-	private Integer idDepartamento; // FK
-	private Integer idHorario;      // FK
+	private Integer idDepartamento; 
+	private Integer idHorario;    
 }

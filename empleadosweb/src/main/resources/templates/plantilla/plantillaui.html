@@ -10,7 +10,6 @@
 <link rel="shortcut icon" type="image/png" th:href="@{/assets/images/logos/favicon.png}" />
 <link rel="stylesheet" th:href="@{/assets/css/styles.min.css}" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ti-icons@0.1.2/css/themify-icons.min.css">
-<link rel="stylesheet" th:href="@{/assets/css/evolution.css}" />
 </head>
 
 <body>
@@ -23,9 +22,8 @@
 		<aside class="left-sidebar">
 			<div>
 				<div class="brand-logo d-flex align-items-center justify-content-between">
-					<a th:href="@{/}" class="text-nowrap logo-img text-decoration-none d-flex align-items-center">
-						<span class="evo-logo-mark"><i class="ti-pulse"></i></span>
-						<span class="evo-logo-texto">EVOLUTION<small>EMPLEADOS &amp; ASISTENCIAS</small></span>
+					<a th:href="@{/}" class="text-nowrap logo-img text-decoration-none">
+						<span class="fs-7 fw-bolder" style="color:#5D87FF; letter-spacing:1px;">EVOLUTION</span>
 					</a>
 					<div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
 						<i class="ti ti-x fs-8"></i>
@@ -139,15 +137,15 @@
 					<div class="navbar-collapse justify-content-end px-0" id="navbarNav">
 						<ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
 							<li class="nav-item me-2" sec:authorize="isAuthenticated()">
-								<span class="evo-chip-rol" sec:authorize="hasRole('ADMIN')">ADMINISTRADOR</span>
-								<span class="evo-chip-rol" sec:authorize="hasRole('RRHH') and !hasRole('ADMIN')">RECURSOS HUMANOS</span>
-								<span class="evo-chip-rol" sec:authorize="hasRole('EMPLEADO') and !hasRole('ADMIN') and !hasRole('RRHH')">EMPLEADO</span>
+								<span class="fw-semibold text-dark">
+									<i class="ti-user"></i> <span sec:authentication="name">usuario</span>
+								</span>
 							</li>
-							<li class="nav-item me-2" sec:authorize="isAuthenticated()">
-								<span class="fw-semibold text-dark" sec:authentication="name">usuario</span>
-							</li>
-							<li class="nav-item me-1" sec:authorize="isAuthenticated()">
-								<span class="evo-avatar" id="evoAvatar" sec:authentication="name">U</span>
+							<li class="nav-item dropdown">
+								<a class="nav-link nav-icon-hover" href="javascript:void(0)"
+									id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
+									<img th:src="@{/assets/images/profile/user-1.jpg}" alt="usuario" width="35" height="35" class="rounded-circle">
+								</a>
 							</li>
 							<li class="nav-item" sec:authorize="isAuthenticated()">
 								<form th:action="@{/logout}" method="post" class="d-inline ms-2">
@@ -186,30 +184,6 @@
 	<script th:src="@{/assets/js/app.min.js}"></script>
 	<script th:src="@{/assets/libs/simplebar/dist/simplebar.js}"></script>
 	<script>
-		// UX: resaltar la opcion activa del menu lateral
-		(function () {
-			var ruta = window.location.pathname.replace(/\/$/, '') || '/';
-			var enlaces = document.querySelectorAll('.sidebar-nav .sidebar-link');
-			var mejor = null, mejorLen = -1;
-			enlaces.forEach(function (a) {
-				var href = a.getAttribute('href');
-				if (!href) return;
-				href = href.replace(/\/$/, '') || '/';
-				if (ruta === href || (href !== '/' && ruta.indexOf(href) === 0)) {
-					if (href.length > mejorLen) { mejor = a; mejorLen = href.length; }
-				}
-			});
-			if (mejor) mejor.classList.add('active');
-		})();
-
-		// UX: avatar con las iniciales del usuario autenticado
-		(function () {
-			var av = document.getElementById('evoAvatar');
-			if (!av) return;
-			var nombre = (av.textContent || '').trim();
-			if (nombre) av.textContent = nombre.substring(0, 2).toUpperCase();
-		})();
-
 		// UX: auto-descartar mensajes flash despues de 5 segundos
 		setTimeout(function () {
 			document.querySelectorAll('.alert-flash').forEach(function (el) {

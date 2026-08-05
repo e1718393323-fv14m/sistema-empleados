@@ -16,7 +16,6 @@ import com.uisrael.empleadosapi.repository.IDepartamentoRepository;
 import com.uisrael.empleadosapi.repository.IEmpleadoRepository;
 import com.uisrael.empleadosapi.repository.IHorarioRepository;
 import com.uisrael.empleadosapi.services.IEmpleadoService;
-import com.uisrael.empleadosapi.util.CedulaUtil;
 
 @Service
 public class EmpleadoServiceImpl implements IEmpleadoService {
@@ -54,11 +53,6 @@ public class EmpleadoServiceImpl implements IEmpleadoService {
 	@Override
 	@Transactional
 	public EmpleadoResponseDto guardar(EmpleadoRequestDto dto) {
-		// Regla de negocio: la cedula debe ser una cedula ecuatoriana valida
-		if (!CedulaUtil.esValida(dto.getCedula())) {
-			throw new ReglaNegocioException(
-					"La cedula " + dto.getCedula() + " no es valida: verifique los 10 digitos y el digito verificador");
-		}
 		// Regla de negocio: la cedula no debe repetirse
 		empleadoRepository.buscarPorCedula(dto.getCedula()).ifPresent(e -> {
 			throw new ReglaNegocioException("Ya existe un empleado con la cedula " + dto.getCedula());
@@ -72,11 +66,6 @@ public class EmpleadoServiceImpl implements IEmpleadoService {
 	@Transactional
 	public EmpleadoResponseDto actualizar(Integer codigo, EmpleadoRequestDto dto) {
 		Empleado e = obtener(codigo);
-		// Regla de negocio: la cedula debe ser una cedula ecuatoriana valida
-		if (!CedulaUtil.esValida(dto.getCedula())) {
-			throw new ReglaNegocioException(
-					"La cedula " + dto.getCedula() + " no es valida: verifique los 10 digitos y el digito verificador");
-		}
 		// si cambia la cedula, validar que no pertenezca a otro empleado
 		empleadoRepository.buscarPorCedula(dto.getCedula())
 				.filter(otro -> !otro.getIdEmpleado().equals(codigo))

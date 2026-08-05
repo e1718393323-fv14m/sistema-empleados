@@ -9,7 +9,6 @@ import com.uisrael.empleadosapi.entities.Horario;
 
 public interface IHorarioRepository extends JpaRepository<Horario, Integer> {
 
-	// JPQL: horarios activos
 	@Query("SELECT h FROM Horario h WHERE h.estado = true ORDER BY h.horaEntrada")
 	List<Horario> listarActivos();
 }

@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.Data;
 
-/** Permisos por ausencia con flujo de autorizacion de RRHH */
 @Data
 @Entity
 @Table(name = "permisos")
@@ -30,14 +29,12 @@ public class Permiso {
 	@Column(name = "fecha_hasta", nullable = false)
 	private LocalDate fechaHasta;
 
-	// CALAMIDAD, MEDICO, PERSONAL, VACACIONES, OTRO
 	@Column(name = "tipo_permiso", nullable = false, length = 20)
 	private String tipoPermiso;
 
 	@Column(nullable = false, length = 300)
 	private String motivo;
 
-	// PENDIENTE, APROBADO, RECHAZADO
 	@Column(nullable = false, length = 15)
 	private String estado = "PENDIENTE";
 

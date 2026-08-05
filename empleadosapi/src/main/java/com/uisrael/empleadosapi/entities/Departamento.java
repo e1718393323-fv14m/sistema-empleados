@@ -21,7 +21,6 @@ public class Departamento {
 
 	private boolean estado;
 
-	// Relacion JPA: muchos departamentos pertenecen a un area
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_area", nullable = false)
 	private Area area;

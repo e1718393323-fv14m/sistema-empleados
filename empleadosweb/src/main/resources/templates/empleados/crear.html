@@ -10,7 +10,7 @@
 		<form th:action="@{/empleados/guardar}" th:object="${empleado}" method="post">
 			<input type="hidden" th:field="*{idEmpleado}">
 
-			<h6 class="evo-seccion"><i class="ti-user"></i> Datos personales</h6>
+			<h6 class="fw-semibold border-bottom pb-2 mb-3">Datos personales</h6>
 			<div class="row">
 				<div class="col-md-4 mb-3">
 					<label class="form-label">Codigo alterno</label>
@@ -26,13 +26,7 @@
 				</div>
 				<div class="col-md-4 mb-3">
 					<label class="form-label">Cedula *</label>
-					<div class="input-group">
-						<span class="input-group-text"><i class="ti-id-badge"></i></span>
-						<input type="text" class="form-control" th:field="*{cedula}" id="campoCedula"
-							maxlength="10" inputmode="numeric" autocomplete="off"
-							placeholder="10 digitos" required>
-					</div>
-					<div id="cedulaFeedback" class="mt-1"></div>
+					<input type="text" class="form-control" th:field="*{cedula}" maxlength="10" required>
 				</div>
 				<div class="col-md-4 mb-3">
 					<label class="form-label">Fecha de nacimiento</label>
@@ -85,7 +79,7 @@
 				</div>
 			</div>
 
-			<h6 class="evo-seccion"><i class="ti-briefcase"></i> Datos laborales</h6>
+			<h6 class="fw-semibold border-bottom pb-2 mb-3">Datos laborales</h6>
 			<div class="row">
 				<div class="col-md-4 mb-3">
 					<label class="form-label">Puesto</label>
@@ -122,77 +116,6 @@
 			<button type="submit" class="btn btn-primary"><i class="ti-save"></i> Guardar</button>
 			<a th:href="@{/empleados}" class="btn btn-secondary">Cancelar</a>
 		</form>
-
-		<script>
-		/* =====================================================
-		   Validador de cedula ecuatoriana (modulo 10) en vivo
-		   Mismas reglas que valida la API en CedulaUtil.java
-		   ===================================================== */
-		(function () {
-			var campo = document.getElementById('campoCedula');
-			var feedback = document.getElementById('cedulaFeedback');
-			if (!campo) return;
-
-			function validarCedulaEcuatoriana(cedula) {
-				if (!/^\d{10}$/.test(cedula)) {
-					return { ok: false, msj: 'La cedula debe tener 10 digitos numericos' };
-				}
-				var provincia = parseInt(cedula.substring(0, 2), 10);
-				if (!((provincia >= 1 && provincia <= 24) || provincia === 30)) {
-					return { ok: false, msj: 'Codigo de provincia invalido (' + cedula.substring(0, 2) + ')' };
-				}
-				var tercero = parseInt(cedula.charAt(2), 10);
-				if (tercero >= 6) {
-					return { ok: false, msj: 'El tercer digito debe ser menor a 6 para personas naturales' };
-				}
-				var suma = 0;
-				for (var i = 0; i < 9; i++) {
-					var d = parseInt(cedula.charAt(i), 10);
-					if (i % 2 === 0) { d *= 2; if (d > 9) d -= 9; }
-					suma += d;
-				}
-				var verificador = (10 - (suma % 10)) % 10;
-				if (verificador !== parseInt(cedula.charAt(9), 10)) {
-					return { ok: false, msj: 'El digito verificador no coincide: la cedula no es valida' };
-				}
-				return { ok: true, msj: 'Cedula valida' };
-			}
-
-			function pintar(res, parcial) {
-				campo.classList.remove('is-valid', 'is-invalid');
-				if (parcial) { feedback.innerHTML = ''; return; }
-				if (res.ok) {
-					campo.classList.add('is-valid');
-					feedback.innerHTML = '<span class="evo-feedback-ok"><i class="ti-check"></i> ' + res.msj + '</span>';
-				} else {
-					campo.classList.add('is-invalid');
-					feedback.innerHTML = '<span class="evo-feedback-error"><i class="ti-close"></i> ' + res.msj + '</span>';
-				}
-			}
-
-			campo.addEventListener('input', function () {
-				// solo digitos
-				this.value = this.value.replace(/\D/g, '');
-				if (this.value.length < 10) { pintar(null, true); return; }
-				pintar(validarCedulaEcuatoriana(this.value), false);
-			});
-
-			// si viene precargada (edicion), validar al abrir
-			if (campo.value && campo.value.length === 10) {
-				pintar(validarCedulaEcuatoriana(campo.value), false);
-			}
-
-			// bloquear el envio si la cedula no es valida
-			campo.form.addEventListener('submit', function (ev) {
-				var res = validarCedulaEcuatoriana(campo.value);
-				if (!res.ok) {
-					ev.preventDefault();
-					pintar(res, false);
-					campo.focus();
-				}
-			});
-		})();
-		</script>
 	</div>
 </body>
 </html>

@@ -27,7 +27,6 @@ public class PermisoController extends ControladorBase {
 	@GetMapping("/listar")
 	public String listar(@RequestParam(required = false) String estado, Model model,
 			@AuthenticationPrincipal UsuarioSesion usuario) {
-		// El rol EMPLEADO solo ve sus propios permisos
 		if (usuario != null && "EMPLEADO".equals(usuario.getRol())
 				&& usuario.getIdEmpleado() != null) {
 			model.addAttribute("listapermisos",
@@ -57,7 +56,6 @@ public class PermisoController extends ControladorBase {
 	@PostMapping("/guardar")
 	public String guardar(@ModelAttribute PermisoRequestDto permiso, RedirectAttributes flash,
 			@AuthenticationPrincipal UsuarioSesion usuario) {
-		// Seguridad: el EMPLEADO solo puede solicitar para si mismo
 		if (usuario != null && "EMPLEADO".equals(usuario.getRol())) {
 			permiso.setIdEmpleado(usuario.getIdEmpleado());
 		}

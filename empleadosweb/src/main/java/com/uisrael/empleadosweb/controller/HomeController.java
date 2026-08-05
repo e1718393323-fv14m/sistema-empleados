@@ -25,7 +25,6 @@ public class HomeController {
 		return "index";
 	}
 
-	// Pagina amigable cuando el rol no tiene permisos (ver SeguridadConfig)
 	@GetMapping("/acceso-denegado")
 	public String accesoDenegado() {
 		return "acceso-denegado";

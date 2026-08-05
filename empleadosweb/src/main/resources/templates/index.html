@@ -5,114 +5,61 @@
 <head><meta charset="utf-8"></head>
 <body>
 	<div layout:fragment="contenidopaginas">
-		<div class="d-flex align-items-center justify-content-between mb-4">
-			<h5 class="card-title fw-semibold mb-0"><i class="ti-dashboard"></i> Panel de Control</h5>
-			<span class="text-muted fs-2" id="evoFechaHoy"></span>
-			<script>document.addEventListener('DOMContentLoaded', function(){
-				document.getElementById('evoFechaHoy').textContent = new Date().toLocaleDateString('es-EC', {day:'2-digit', month:'2-digit', year:'numeric'});
-			});</script>
-		</div>
+		<h5 class="card-title fw-semibold mb-4">Panel de Control</h5>
 
-		<!-- Indicadores del dia -->
-		<div class="row g-3"
-			th:with="puntuales=${asistencias.?[estadoMarcacion == 'PUNTUAL'].size()},
-			         atrasos=${asistencias.?[estadoMarcacion == 'ATRASO'].size()}">
-			<div class="col-sm-6 col-xl-3">
-				<div class="card evo-kpi evo-kpi-primario mb-0">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="card bg-primary text-white">
 					<div class="card-body">
-						<h6>Empleados registrados</h6>
-						<h2 th:text="${totalEmpleados}">0</h2>
-						<small>Personal activo en la ficha</small>
+						<h6 class="text-white">Empleados registrados</h6>
+						<h2 class="text-white" th:text="${totalEmpleados}">0</h2>
 					</div>
-					<i class="ti-id-badge evo-kpi-icono"></i>
 				</div>
 			</div>
-			<div class="col-sm-6 col-xl-3">
-				<div class="card evo-kpi evo-kpi-info mb-0">
+			<div class="col-md-4">
+				<div class="card bg-success text-white">
 					<div class="card-body">
-						<h6>Marcaciones registradas</h6>
-						<h2 th:text="${#lists.size(asistencias)}">0</h2>
-						<small>Asistencias consolidadas</small>
+						<h6 class="text-white">Marcaciones registradas</h6>
+						<h2 class="text-white" th:text="${#lists.size(asistencias)}">0</h2>
 					</div>
-					<i class="ti-time evo-kpi-icono"></i>
 				</div>
 			</div>
-			<div class="col-sm-6 col-xl-3">
-				<div class="card evo-kpi evo-kpi-exito mb-0">
+			<div class="col-md-4">
+				<div class="card bg-warning text-white">
 					<div class="card-body">
-						<h6>Puntuales</h6>
-						<h2 th:text="${puntuales}">0</h2>
-						<small>Dentro del horario y tolerancia</small>
+						<h6 class="text-white">Horario laboral</h6>
+						<h2 class="text-white">08:30 - 17:00</h2>
 					</div>
-					<i class="ti-check-box evo-kpi-icono"></i>
-				</div>
-			</div>
-			<div class="col-sm-6 col-xl-3">
-				<div class="card evo-kpi evo-kpi-alerta mb-0">
-					<div class="card-body">
-						<h6>Atrasos</h6>
-						<h2 th:text="${atrasos}">0</h2>
-						<small>Horario laboral 08:30 - 17:00</small>
-					</div>
-					<i class="ti-alarm-clock evo-kpi-icono"></i>
 				</div>
 			</div>
 		</div>
 
-		<!-- Accesos rapidos -->
-		<div class="row g-3 mt-1">
-			<div class="col-12">
-				<div class="d-flex flex-wrap gap-2">
-					<a th:href="@{/asistencias/registrar}" class="btn btn-primary btn-sm"><i class="ti-check-box"></i> Marcar asistencia</a>
-					<a th:href="@{/empleados/crear}" class="btn btn-outline-primary btn-sm"><i class="ti-plus"></i> Nuevo empleado</a>
-					<a th:href="@{/permisos/crear}" class="btn btn-outline-primary btn-sm"><i class="ti-calendar"></i> Solicitar permiso</a>
-					<a th:href="@{/marcacion-remota}" class="btn btn-outline-primary btn-sm"><i class="ti-location-pin"></i> Marcacion remota</a>
-				</div>
-			</div>
-		</div>
-
-		<h6 class="fw-semibold mt-4 mb-3"><i class="ti-list"></i> Ultimas marcaciones</h6>
-		<div class="table-responsive">
-			<table class="table table-hover align-middle">
-				<thead>
-					<tr>
-						<th>Fecha</th>
-						<th>Empleado</th>
-						<th>Cod. Alterno</th>
-						<th>Entrada</th>
-						<th>Salida</th>
-						<th>Estado</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="a, iter : ${asistencias}" th:if="${iter.index < 8}">
-						<td th:text="${a.fecha}"></td>
-						<td>
-							<div class="d-flex align-items-center gap-2">
-								<span class="evo-ini"
-									th:text="${a.nombreEmpleado != null and !#strings.isEmpty(a.nombreEmpleado)} ? ${#strings.toUpperCase(#strings.substring(a.nombreEmpleado,0,2))} : '--'"></span>
-								<span th:text="${a.nombreEmpleado}"></span>
-							</div>
-						</td>
-						<td th:text="${a.codigoAlterno}"></td>
-						<td th:text="${a.horaEntrada}"></td>
-						<td th:text="${a.horaSalida}"></td>
-						<td>
-							<span th:if="${a.estadoMarcacion == 'PUNTUAL'}" class="badge bg-success" th:text="${a.estadoMarcacion}"></span>
-							<span th:if="${a.estadoMarcacion == 'ATRASO'}" class="badge bg-danger" th:text="${a.estadoMarcacion}"></span>
-							<span th:if="${a.estadoMarcacion == 'PERMISO'}" class="badge bg-info" th:text="${a.estadoMarcacion}"></span>
-							<span th:if="${a.estadoMarcacion != 'PUNTUAL' and a.estadoMarcacion != 'ATRASO' and a.estadoMarcacion != 'PERMISO'}"
-								class="badge bg-secondary" th:text="${a.estadoMarcacion}"></span>
-						</td>
-					</tr>
-					<tr th:if="${#lists.isEmpty(asistencias)}">
-						<td colspan="6" class="text-center text-muted py-4">
-							<i class="ti-info-alt"></i> Aun no hay marcaciones registradas
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		<h6 class="fw-semibold mt-3">Ultimas marcaciones</h6>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Fecha</th>
+					<th>Cod. Alterno</th>
+					<th>Empleado</th>
+					<th>Entrada</th>
+					<th>Salida</th>
+					<th>Estado</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="a, iter : ${asistencias}" th:if="${iter.index < 8}">
+					<td th:text="${a.fecha}"></td>
+					<td th:text="${a.codigoAlterno}"></td>
+					<td th:text="${a.nombreEmpleado}"></td>
+					<td th:text="${a.horaEntrada}"></td>
+					<td th:text="${a.horaSalida}"></td>
+					<td>
+						<span th:if="${a.estadoMarcacion == 'PUNTUAL'}" class="badge bg-success" th:text="${a.estadoMarcacion}"></span>
+						<span th:if="${a.estadoMarcacion == 'ATRASO'}" class="badge bg-danger" th:text="${a.estadoMarcacion}"></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </body>
 </html>

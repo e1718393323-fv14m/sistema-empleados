@@ -8,12 +8,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.uisrael.empleadosweb.seguridad.ProveedorAutenticacionApi;
 
-/**
- * Seguridad del cliente web (el API queda interno; decision documentada en README):
- * - ADMIN: acceso total (usuarios, auditoria)
- * - RRHH: aprueba/rechaza permisos, gestiona empleados y catalogos
- * - EMPLEADO: marcacion remota, sus permisos y su historial
- */
 @Configuration
 @EnableWebSecurity
 public class SeguridadConfig {

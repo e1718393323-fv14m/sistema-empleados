@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import lombok.Data;
 
-/** Nunca expone el password */
 @Data
 public class UsuarioResponseDto {
 	private Integer idUsuario;
