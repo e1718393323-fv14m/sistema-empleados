@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class AsistenciaRequestDto {
-	private Integer idEmpleado; 
+	private Integer idEmpleado; // codigo del empleado (ficha principal)
 	private String observacion;
 }

@@ -27,6 +27,7 @@ public class EmpleadoController extends ControladorBase {
 		this.horarioService = horarioService;
 	}
 
+	// LISTAR (R del CRUD) con busqueda opcional
 	@GetMapping
 	public String listar(@RequestParam(required = false) String buscar, Model model) {
 		model.addAttribute("listaempleados", empleadoService.listar(buscar));
@@ -34,6 +35,7 @@ public class EmpleadoController extends ControladorBase {
 		return "empleados/listar";
 	}
 
+	// FORMULARIO NUEVO (C del CRUD)
 	@GetMapping("/nuevo")
 	public String nuevo(Model model) {
 		model.addAttribute("empleado", new EmpleadoRequestDto());
@@ -42,6 +44,7 @@ public class EmpleadoController extends ControladorBase {
 		return "empleados/crear";
 	}
 
+	// FORMULARIO EDITAR (U del CRUD)
 	@GetMapping("/editar/{codigo}")
 	public String editar(@PathVariable Integer codigo, Model model) {
 		EmpleadoResponseDto e = empleadoService.buscarPorCodigo(codigo);
@@ -70,6 +73,7 @@ public class EmpleadoController extends ControladorBase {
 		return "empleados/crear";
 	}
 
+	// GUARDAR (crea o actualiza segun exista el codigo)
 	@PostMapping("/guardar")
 	public String guardar(@ModelAttribute EmpleadoRequestDto empleado, RedirectAttributes flash) {
 		try {
@@ -86,6 +90,7 @@ public class EmpleadoController extends ControladorBase {
 		return "redirect:/empleados";
 	}
 
+	// ELIMINAR (D del CRUD)
 	@GetMapping("/eliminar/{codigo}")
 	public String eliminar(@PathVariable Integer codigo, RedirectAttributes flash) {
 		try {

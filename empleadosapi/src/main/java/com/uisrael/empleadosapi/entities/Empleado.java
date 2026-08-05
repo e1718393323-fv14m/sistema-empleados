@@ -15,10 +15,10 @@ public class Empleado {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_empleado")
-	private Integer idEmpleado; 
+	private Integer idEmpleado; // CODIGO del empleado (ficha principal)
 
 	@Column(name = "codigo_alterno", unique = true, length = 20)
-	private String codigoAlterno; 
+	private String codigoAlterno; // Ej: ADE002886
 
 	@Column(nullable = false, length = 100)
 	private String nombres;
@@ -61,14 +61,17 @@ public class Empleado {
 
 	private boolean estado;
 
+	// Relacion JPA: muchos empleados pertenecen a un departamento
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_departamento", nullable = false)
 	private Departamento departamento;
 
+	// Relacion JPA: muchos empleados tienen asignado un horario
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_horario", nullable = false)
 	private Horario horario;
 
+	// Relacion JPA inversa: un empleado tiene muchas asistencias
 	@OneToMany(mappedBy = "empleado", fetch = FetchType.LAZY)
 	@ToString.Exclude
 	private List<Asistencia> asistencias;

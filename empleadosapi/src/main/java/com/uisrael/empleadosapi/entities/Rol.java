@@ -14,7 +14,7 @@ public class Rol {
 	private Integer idRol;
 
 	@Column(nullable = false, unique = true, length = 30)
-	private String nombre; 
+	private String nombre; // ADMIN, RRHH, EMPLEADO
 
 	@Column(length = 200)
 	private String descripcion;

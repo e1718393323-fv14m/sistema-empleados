@@ -36,12 +36,14 @@ public class AsistenciaRestController {
 		return asistenciaService.listarPorEmpleado(codigo);
 	}
 
+	// Marcar entrada (compara contra el horario 08:30 y calcula PUNTUAL/ATRASO)
 	@PostMapping("/entrada")
 	@ResponseStatus(HttpStatus.CREATED)
 	public AsistenciaResponseDto marcarEntrada(@RequestBody AsistenciaRequestDto dto) {
 		return asistenciaService.marcarEntrada(dto);
 	}
 
+	// Marcar salida del dia actual
 	@PutMapping("/salida")
 	public AsistenciaResponseDto marcarSalida(@RequestBody AsistenciaRequestDto dto) {
 		return asistenciaService.marcarSalida(dto);

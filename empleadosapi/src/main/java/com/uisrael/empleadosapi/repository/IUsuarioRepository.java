@@ -11,6 +11,7 @@ import com.uisrael.empleadosapi.entities.Usuario;
 
 public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
 
+	// JPQL: usuario con su rol y empleado para autenticacion
 	@Query("SELECT u FROM Usuario u JOIN FETCH u.rol LEFT JOIN FETCH u.empleado "
 		 + "WHERE u.username = :username")
 	Optional<Usuario> buscarPorUsername(@Param("username") String username);

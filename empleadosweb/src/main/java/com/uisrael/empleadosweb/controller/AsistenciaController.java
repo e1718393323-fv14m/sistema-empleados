@@ -31,10 +31,12 @@ public class AsistenciaController extends ControladorBase {
 			this.permisoService = permisoService;
 	}
 
+	// Listado general de asistencias
 	@GetMapping
 	public String listar(@RequestParam(required = false) Integer codigo, Model model) {
 		if (codigo != null) {
 			model.addAttribute("listaasistencias", asistenciaService.listarPorEmpleado(codigo));
+			// Dias justificados: permisos APROBADOS del empleado (se muestran como PERMISO)
 			model.addAttribute("listapermisos", permisoService.listarPorEmpleado(codigo)
 					.stream().filter(pp -> "APROBADO".equals(pp.getEstado())).toList());
 		} else {
@@ -44,6 +46,7 @@ public class AsistenciaController extends ControladorBase {
 		return "asistencias/listar";
 	}
 
+	// Pantalla de marcacion (entrada / salida)
 	@GetMapping("/registrar")
 	public String registrar(Model model) {
 		model.addAttribute("asistencia", new AsistenciaRequestDto());
@@ -75,6 +78,7 @@ public class AsistenciaController extends ControladorBase {
 		return "redirect:/asistencias";
 	}
 
+	// Consolida las marcaciones del biometrico (tabla marcaciones_raw)
 	@PostMapping("/procesar")
 	public String procesarMarcaciones(RedirectAttributes flash) {
 		try {

@@ -22,6 +22,7 @@ public class MarcacionRestController {
 		this.marcacionService = marcacionService;
 	}
 
+	/** Carga masiva de marcaciones crudas (integracion) */
 	@PostMapping
 	public ResponseEntity<String> cargar(@RequestBody List<MarcacionRawRequestDto> marcaciones) {
 		int n = marcacionService.cargar(marcaciones);
@@ -29,6 +30,7 @@ public class MarcacionRestController {
 				.body("Se cargaron " + n + " marcaciones");
 	}
 
+	/** Consolida marcaciones pendientes en asistencias (opcional ?fecha=yyyy-MM-dd) */
 	@PostMapping("/procesar")
 	public ResponseEntity<ProcesoMarcacionResponseDto> procesar(
 			@RequestParam(required = false)

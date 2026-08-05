@@ -24,6 +24,7 @@ public interface IPermisoRepository extends JpaRepository<Permiso, Integer> {
 		 + "WHERE p.empleado.idEmpleado = :idEmpleado ORDER BY p.fechaSolicitud DESC")
 	List<Permiso> listarPorEmpleado(@Param("idEmpleado") Integer idEmpleado);
 
+	// JPQL: permiso APROBADO vigente para una fecha (justifica salida anticipada)
 	@Query("SELECT p FROM Permiso p WHERE p.empleado.idEmpleado = :idEmpleado "
 		 + "AND p.estado = 'APROBADO' AND :fecha BETWEEN p.fechaDesde AND p.fechaHasta "
 		 + "ORDER BY p.idPermiso LIMIT 1")

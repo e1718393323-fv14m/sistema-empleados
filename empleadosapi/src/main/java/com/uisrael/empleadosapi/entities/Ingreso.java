@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.Data;
 
+/** Auditoria de accesos al sistema (cada intento de login) */
 @Data
 @Entity
 @Table(name = "ingresos")
@@ -15,6 +16,7 @@ public class Ingreso {
 	@Column(name = "id_ingreso")
 	private Long idIngreso;
 
+	// Puede ser null si el username no existe
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;

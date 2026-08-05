@@ -49,6 +49,7 @@ public class UsuarioRestController {
 		usuarioService.eliminar(id);
 	}
 
+	/** Autenticacion: valida credenciales y registra el ingreso (auditoria) */
 	@PostMapping("/login")
 	public ResponseEntity<UsuarioResponseDto> login(@RequestBody LoginRequestDto dto) {
 		return ResponseEntity.ok(usuarioService.autenticar(dto));

@@ -7,6 +7,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public abstract class ControladorBase {
 
+	/**
+	 * Ejecuta una accion contra el API con el manejo estandar de mensajes flash:
+	 * exito -> "mensaje", error del API -> "error" con el detalle.
+	 */
 	protected String ejecutar(RedirectAttributes flash, String mensajeExito,
 			String redireccion, Supplier<Object> accion) {
 		try {
@@ -18,6 +22,7 @@ public abstract class ControladorBase {
 		return redireccion;
 	}
 
+	// Extrae el mensaje {"error": "..."} devuelto por el API
 	protected String mensajeError(WebClientResponseException ex) {
 		String cuerpo = ex.getResponseBodyAsString();
 		if (cuerpo != null && cuerpo.contains("\"error\"")) {

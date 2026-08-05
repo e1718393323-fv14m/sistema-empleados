@@ -13,6 +13,7 @@ import com.uisrael.empleadosweb.seguridad.UsuarioSesion;
 import com.uisrael.empleadosweb.services.IEmpleadoService;
 import com.uisrael.empleadosweb.services.IUsuarioService;
 
+/** Gestion de usuarios y auditoria de ingresos (solo ADMIN, ver SeguridadConfig) */
 @Controller
 @RequestMapping("/usuarios")
 public class UsuarioController extends ControladorBase {
@@ -52,6 +53,7 @@ public class UsuarioController extends ControladorBase {
 		usuario.setUsername(u.getUsername());
 		usuario.setIdEmpleado(u.getIdEmpleado());
 		usuario.setEstado(u.isEstado());
+		// El rol viene como nombre; el select lo resuelve por nombre
 		model.addAttribute("rolActual", u.getRol());
 		model.addAttribute("usuario", usuario);
 		model.addAttribute("listaempleados", empleadoService.listar(null));
@@ -68,6 +70,7 @@ public class UsuarioController extends ControladorBase {
 	@GetMapping("/eliminar/{id}")
 	public String eliminar(@PathVariable Integer id, RedirectAttributes flash,
 			@AuthenticationPrincipal UsuarioSesion sesion) {
+		// Proteccion: no puede eliminarse el usuario con el que esta logueado
 		if (sesion != null && sesion.getIdUsuario().equals(id)) {
 			flash.addFlashAttribute("error",
 					"No puede eliminar el usuario con el que tiene la sesion iniciada");
